@@ -1,0 +1,20 @@
+services:
+  local-maraidb:
+    image: mariadb
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_USER: root
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    ports:
+      - 3306:3306
+    volumes:
+      - ./mysql/config:/etc/mysql/conf.d
+      - ./mysql/initial_data:/docker-entrypoint-initdb.d
+    platform: linux/x86_64 # for m1
+
+  local-redis:
+    image: redis:5.0.6
+    restart: always
+    ports:
+      - 6379:6379
