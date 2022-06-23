@@ -18,6 +18,7 @@ public class Book {
     @Setter
     private String title;
 
+    @Setter
     @Enumerated(EnumType.STRING)
     private BookStatus status = BookStatus.ACTIVE;
 
