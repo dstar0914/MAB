@@ -3,6 +3,9 @@ package kr.dstar.mab.enumeration;
 public enum BookStatus {
 
     // 사용 상태.
-    ACTIVE
+    ACTIVE,
+
+    // 삭제 상태.
+    DELETED
 
 }

@@ -3,6 +3,7 @@ package kr.dstar.mab.service;
 import kr.dstar.mab.domain.Book;
 import kr.dstar.mab.dto.BookCreate;
 import kr.dstar.mab.dto.BookUpdate;
+import kr.dstar.mab.enumeration.BookStatus;
 import kr.dstar.mab.exception.book.BookNotFoundException;
 import kr.dstar.mab.repository.BookRepository;
 import org.junit.jupiter.api.Test;
@@ -57,6 +58,23 @@ class BookServiceTest {
         assertThat(updatedBook).isNotNull();
         assertThat(updatedBook.getId()).isEqualTo(book.getId());
         assertThat(updatedBook.getTitle()).isEqualTo(bookUpdate.getTitle());
+    }
+
+    @Test
+    public void deleteBook() {
+        // Given.
+        Book book = new Book();
+        book.setTitle("첫 글 입니다.");
+
+        bookRepository.saveAndFlush(book);
+
+        // When.
+        bookService.deleteBook(book.getId());
+
+        // Then.
+        Book deletedBook = bookService.getBook(book.getId());
+
+        assertThat(deletedBook.getStatus()).isEqualTo(BookStatus.DELETED);
     }
 
     @Test

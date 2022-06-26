@@ -3,6 +3,7 @@ package kr.dstar.mab.service;
 import kr.dstar.mab.domain.Book;
 import kr.dstar.mab.dto.BookCreate;
 import kr.dstar.mab.dto.BookUpdate;
+import kr.dstar.mab.enumeration.BookStatus;
 import kr.dstar.mab.exception.book.BookNotFoundException;
 import kr.dstar.mab.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,13 @@ public class BookService {
 
         book.setTitle(bookUpdate.getTitle());
         book.setStatus(bookUpdate.getStatus());
+    }
+
+    public void deleteBook(Long id) {
+        Book book = Optional.ofNullable(bookRepository.findById(id))
+                .orElseThrow(() -> new BookNotFoundException(id)).get();
+
+        book.setStatus(BookStatus.DELETED);
     }
 
     public Book getBook(Long id) {
