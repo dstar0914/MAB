@@ -1,8 +1,8 @@
 package kr.dstar.mab.controller;
 
-import kr.dstar.mab.domain.Book;
-import kr.dstar.mab.dto.BookCreate;
-import kr.dstar.mab.dto.BookUpdate;
+import kr.dstar.mab.dto.BookCreateDto;
+import kr.dstar.mab.dto.BookDto;
+import kr.dstar.mab.dto.BookUpdateDto;
 import kr.dstar.mab.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,13 +18,13 @@ public class BookController {
 
     @PostMapping("/books")
     @ResponseStatus(value = HttpStatus.CREATED)
-    public void createBook(@Valid @RequestBody BookCreate bookCreate) {
-        bookService.createBook(bookCreate);
+    public void createBook(@Valid @RequestBody BookCreateDto bookCreateDto) {
+        bookService.createBook(bookCreateDto);
     }
 
     @PutMapping("/books/{id}")
-    public void updateBook(@PathVariable Long id, @Valid @RequestBody BookUpdate bookUpdate) {
-        bookService.updateBook(id, bookUpdate);
+    public void updateBook(@PathVariable Long id, @Valid @RequestBody BookUpdateDto bookUpdateDto) {
+        bookService.updateBook(id, bookUpdateDto);
     }
 
     @DeleteMapping("/books/{id}")
@@ -33,7 +33,7 @@ public class BookController {
     }
 
     @GetMapping("/books/{id}")
-    public Book getBook(@PathVariable Long id) {
+    public BookDto getBook(@PathVariable Long id) {
         return bookService.getBook(id);
     }
 

@@ -1,8 +1,9 @@
 package kr.dstar.mab.service;
 
 import kr.dstar.mab.domain.Book;
-import kr.dstar.mab.dto.BookCreate;
-import kr.dstar.mab.dto.BookUpdate;
+import kr.dstar.mab.dto.BookCreateDto;
+import kr.dstar.mab.dto.BookDto;
+import kr.dstar.mab.dto.BookUpdateDto;
 import kr.dstar.mab.enumeration.BookStatus;
 import kr.dstar.mab.exception.book.BookNotFoundException;
 import kr.dstar.mab.repository.BookRepository;
@@ -32,10 +33,10 @@ class BookServiceTest {
 
     @Test
     public void createBook() {
-        BookCreate bookCreate = new BookCreate();
-        bookCreate.setTitle("첫 글 입니다.");
+        BookCreateDto bookCreateDto = new BookCreateDto();
+        bookCreateDto.setTitle("첫 글 입니다.");
 
-        bookService.createBook(bookCreate);
+        bookService.createBook(bookCreateDto);
     }
 
     @Test
@@ -47,17 +48,17 @@ class BookServiceTest {
         bookRepository.saveAndFlush(book);
 
         // When.
-        BookUpdate bookUpdate = new BookUpdate();
-        bookUpdate.setTitle("첫 글 수정입니다.");
+        BookUpdateDto bookUpdateDto = new BookUpdateDto();
+        bookUpdateDto.setTitle("첫 글 수정입니다.");
 
-        bookService.updateBook(book.getId(), bookUpdate);
+        bookService.updateBook(book.getId(), bookUpdateDto);
 
         // Then.
-        Book updatedBook = bookService.getBook(book.getId());
+        BookDto updatedBook = bookService.getBook(book.getId());
 
         assertThat(updatedBook).isNotNull();
         assertThat(updatedBook.getId()).isEqualTo(book.getId());
-        assertThat(updatedBook.getTitle()).isEqualTo(bookUpdate.getTitle());
+        assertThat(updatedBook.getTitle()).isEqualTo(bookUpdateDto.getTitle());
     }
 
     @Test
@@ -72,7 +73,7 @@ class BookServiceTest {
         bookService.deleteBook(book.getId());
 
         // Then.
-        Book deletedBook = bookService.getBook(book.getId());
+        BookDto deletedBook = bookService.getBook(book.getId());
 
         assertThat(deletedBook.getStatus()).isEqualTo(BookStatus.DELETED);
     }
@@ -86,7 +87,7 @@ class BookServiceTest {
         bookRepository.saveAndFlush(book);
 
         // When.
-        Book findBook = bookService.getBook(book.getId());
+        BookDto findBook = bookService.getBook(book.getId());
 
         // Then.
         assertThat(findBook).isNotNull();

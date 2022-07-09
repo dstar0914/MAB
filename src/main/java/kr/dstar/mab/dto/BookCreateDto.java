@@ -3,7 +3,7 @@ package kr.dstar.mab.dto;
 import lombok.Data;
 
 @Data
-public class BookCreate {
+public class BookCreateDto {
 
     private String title;
 

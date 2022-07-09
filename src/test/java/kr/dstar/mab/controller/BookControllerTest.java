@@ -3,8 +3,9 @@ package kr.dstar.mab.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.dstar.mab.domain.Book;
-import kr.dstar.mab.dto.BookCreate;
-import kr.dstar.mab.dto.BookUpdate;
+import kr.dstar.mab.dto.BookCreateDto;
+import kr.dstar.mab.dto.BookDto;
+import kr.dstar.mab.dto.BookUpdateDto;
 import kr.dstar.mab.enumeration.BookStatus;
 import kr.dstar.mab.repository.BookRepository;
 import kr.dstar.mab.service.BookService;
@@ -61,12 +62,12 @@ class BookControllerTest {
 
     @Test
     public void createBook() throws Exception {
-        BookCreate bookCreate = new BookCreate();
-        bookCreate.setTitle("첫 글 입니다.");
+        BookCreateDto bookCreateDto = new BookCreateDto();
+        bookCreateDto.setTitle("첫 글 입니다.");
 
         mockMvc.perform(post("/books")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(bookCreate)))
+                .content(objectMapper.writeValueAsString(bookCreateDto)))
                 .andExpect(status().isCreated());
     }
 
@@ -79,20 +80,20 @@ class BookControllerTest {
         bookRepository.saveAndFlush(book);
 
         // When.
-        BookUpdate bookUpdate = new BookUpdate();
-        bookUpdate.setTitle("첫 글 수정입니다.");
+        BookUpdateDto bookUpdateDto = new BookUpdateDto();
+        bookUpdateDto.setTitle("첫 글 수정입니다.");
 
         mockMvc.perform(put("/books/{id}", book.getId())
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(bookUpdate)))
+                .content(objectMapper.writeValueAsString(bookUpdateDto)))
                 .andExpect(status().isOk());
 
         // Then.
-        Book updatedBook = bookService.getBook(book.getId());
+        BookDto updatedBook = bookService.getBook(book.getId());
 
         assertThat(updatedBook).isNotNull();
         assertThat(updatedBook.getId()).isEqualTo(book.getId());
-        assertThat(updatedBook.getTitle()).isEqualTo(bookUpdate.getTitle());
+        assertThat(updatedBook.getTitle()).isEqualTo(bookUpdateDto.getTitle());
     }
 
     @Test
@@ -108,7 +109,7 @@ class BookControllerTest {
                 .andExpect(status().isOk());
 
         // Then.
-        Book deletedBook = bookService.getBook(book.getId());
+        BookDto deletedBook = bookService.getBook(book.getId());
 
         assertThat(deletedBook).isNotNull();
         assertThat(deletedBook.getId()).isEqualTo(book.getId());
