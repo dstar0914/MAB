@@ -32,15 +32,14 @@ public class BookService {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new BookNotFoundException(id));
 
-        book.setTitle(bookUpdateDto.getTitle());
-        book.setStatus(bookUpdateDto.getStatus());
+        book.updateBook(bookUpdateDto.getTitle(), bookUpdateDto.getStatus());
     }
 
     public void deleteBook(Long id) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new BookNotFoundException(id));
 
-        book.setStatus(BookStatus.DELETED);
+        book.updateStatus(BookStatus.DELETED);
     }
 
     public BookDto getBook(Long id) {

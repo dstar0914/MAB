@@ -53,6 +53,8 @@ class BookControllerTest {
     @Autowired
     private BookRepository bookRepository;
 
+    private static final String DEFAULT_TITLE = "첫 글 입니다.";
+
     @BeforeEach
     public void setup() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context)
@@ -62,8 +64,9 @@ class BookControllerTest {
 
     @Test
     public void createBook() throws Exception {
-        BookCreateDto bookCreateDto = new BookCreateDto();
-        bookCreateDto.setTitle("첫 글 입니다.");
+        BookCreateDto bookCreateDto = BookCreateDto.builder()
+                .title(DEFAULT_TITLE)
+                .build();
 
         mockMvc.perform(post("/books")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -74,14 +77,16 @@ class BookControllerTest {
     @Test
     public void updateBook() throws Exception {
         // Given.
-        Book book = new Book();
-        book.setTitle("첫 글 입니다.");
+        Book book = Book.builder()
+                .title(DEFAULT_TITLE)
+                .build();
 
         bookRepository.saveAndFlush(book);
 
         // When.
-        BookUpdateDto bookUpdateDto = new BookUpdateDto();
-        bookUpdateDto.setTitle("첫 글 수정입니다.");
+        BookUpdateDto bookUpdateDto = BookUpdateDto.builder()
+                .title("첫 글 수정입니다.")
+                .build();
 
         mockMvc.perform(put("/books/{id}", book.getId())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -99,8 +104,9 @@ class BookControllerTest {
     @Test
     public void deleteBook() throws Exception {
         // Given.
-        Book book = new Book();
-        book.setTitle("첫 글 입니다.");
+        Book book = Book.builder()
+                .title(DEFAULT_TITLE)
+                .build();
 
         bookRepository.saveAndFlush(book);
 
@@ -119,8 +125,9 @@ class BookControllerTest {
     @Test
     public void getBook() throws Exception {
         // Given.
-        Book book = new Book();
-        book.setTitle("첫 글 입니다.");
+        Book book = Book.builder()
+                .title(DEFAULT_TITLE)
+                .build();
 
         bookRepository.saveAndFlush(book);
 
@@ -139,4 +146,5 @@ class BookControllerTest {
         assertThat(responseObject.getTitle()).isEqualTo(book.getTitle());
         assertThat(responseObject.getStatus()).isEqualTo(BookStatus.ACTIVE);
     }
+
 }

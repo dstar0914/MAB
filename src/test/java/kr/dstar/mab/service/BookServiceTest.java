@@ -31,10 +31,13 @@ class BookServiceTest {
     @Autowired
     private BookRepository bookRepository;
 
+    private static final String DEFAULT_TITLE = "첫 글 입니다.";
+
     @Test
     public void createBook() {
-        BookCreateDto bookCreateDto = new BookCreateDto();
-        bookCreateDto.setTitle("첫 글 입니다.");
+        BookCreateDto bookCreateDto = BookCreateDto.builder()
+                .title(DEFAULT_TITLE)
+                .build();
 
         bookService.createBook(bookCreateDto);
     }
@@ -42,14 +45,16 @@ class BookServiceTest {
     @Test
     public void updateBook() {
         // Given.
-        Book book = new Book();
-        book.setTitle("첫 글 입니다.");
+        Book book = Book.builder()
+                .title(DEFAULT_TITLE)
+                .build();
 
         bookRepository.saveAndFlush(book);
 
         // When.
-        BookUpdateDto bookUpdateDto = new BookUpdateDto();
-        bookUpdateDto.setTitle("첫 글 수정입니다.");
+        BookUpdateDto bookUpdateDto = BookUpdateDto.builder()
+                .title("첫 글 수정입니다.")
+                .build();
 
         bookService.updateBook(book.getId(), bookUpdateDto);
 
@@ -64,8 +69,9 @@ class BookServiceTest {
     @Test
     public void deleteBook() {
         // Given.
-        Book book = new Book();
-        book.setTitle("첫 글 입니다.");
+        Book book = Book.builder()
+                .title(DEFAULT_TITLE)
+                .build();
 
         bookRepository.saveAndFlush(book);
 
@@ -81,8 +87,9 @@ class BookServiceTest {
     @Test
     public void getBook() {
         // Given.
-        Book book = new Book();
-        book.setTitle("첫 글 입니다.");
+        Book book = Book.builder()
+                .title(DEFAULT_TITLE)
+                .build();
 
         bookRepository.saveAndFlush(book);
 
@@ -96,8 +103,9 @@ class BookServiceTest {
 
     @Test
     public void getBook_NonExist() {
-        Book book = new Book();
-        book.setTitle("첫 글 입니다.");
+        Book book = Book.builder()
+                .title(DEFAULT_TITLE)
+                .build();
 
         bookRepository.saveAndFlush(book);
 

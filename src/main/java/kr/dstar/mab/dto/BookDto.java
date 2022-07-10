@@ -1,11 +1,13 @@
 package kr.dstar.mab.dto;
 
 import kr.dstar.mab.enumeration.BookStatus;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
 
 import java.time.OffsetDateTime;
 
-@Data
+@Getter
+@Builder
 public class BookDto {
 
     private Long id;
