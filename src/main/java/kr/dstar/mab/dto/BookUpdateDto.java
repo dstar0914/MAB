@@ -3,11 +3,11 @@ package kr.dstar.mab.dto;
 import kr.dstar.mab.enumeration.BookStatus;
 import lombok.AccessLevel;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Data
+@Getter
 public class BookUpdateDto {
 
     private String title;

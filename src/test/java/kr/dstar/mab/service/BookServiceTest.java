@@ -2,10 +2,10 @@ package kr.dstar.mab.service;
 
 import kr.dstar.mab.domain.Book;
 import kr.dstar.mab.dto.BookCreateDto;
-import kr.dstar.mab.dto.BookDto;
 import kr.dstar.mab.dto.BookUpdateDto;
 import kr.dstar.mab.enumeration.BookStatus;
 import kr.dstar.mab.exception.book.BookNotFoundException;
+import kr.dstar.mab.mapper.BookMapper;
 import kr.dstar.mab.repository.BookRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,6 +31,9 @@ class BookServiceTest {
     @Autowired
     private BookRepository bookRepository;
 
+    @Autowired
+    private BookMapper mapper;
+
     private static final String DEFAULT_TITLE = "첫 글 입니다.";
 
     @Test
@@ -39,7 +42,7 @@ class BookServiceTest {
                 .title(DEFAULT_TITLE)
                 .build();
 
-        bookService.createBook(bookCreateDto);
+        bookService.createBook(mapper.createDtoToEntity(bookCreateDto));
     }
 
     @Test
@@ -56,10 +59,10 @@ class BookServiceTest {
                 .title("첫 글 수정입니다.")
                 .build();
 
-        bookService.updateBook(book.getId(), bookUpdateDto);
+        bookService.updateBook(book.getId(), mapper.updateDtoToEntity(bookUpdateDto));
 
         // Then.
-        BookDto updatedBook = bookService.getBook(book.getId());
+        Book updatedBook = bookService.getBook(book.getId());
 
         assertThat(updatedBook).isNotNull();
         assertThat(updatedBook.getId()).isEqualTo(book.getId());
@@ -79,7 +82,7 @@ class BookServiceTest {
         bookService.deleteBook(book.getId());
 
         // Then.
-        BookDto deletedBook = bookService.getBook(book.getId());
+        Book deletedBook = bookService.getBook(book.getId());
 
         assertThat(deletedBook.getStatus()).isEqualTo(BookStatus.DELETED);
     }
@@ -94,7 +97,7 @@ class BookServiceTest {
         bookRepository.saveAndFlush(book);
 
         // When.
-        BookDto findBook = bookService.getBook(book.getId());
+        Book findBook = bookService.getBook(book.getId());
 
         // Then.
         assertThat(findBook).isNotNull();

@@ -4,7 +4,6 @@ package kr.dstar.mab.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.dstar.mab.domain.Book;
 import kr.dstar.mab.dto.BookCreateDto;
-import kr.dstar.mab.dto.BookDto;
 import kr.dstar.mab.dto.BookUpdateDto;
 import kr.dstar.mab.enumeration.BookStatus;
 import kr.dstar.mab.repository.BookRepository;
@@ -94,7 +93,7 @@ class BookControllerTest {
                 .andExpect(status().isOk());
 
         // Then.
-        BookDto updatedBook = bookService.getBook(book.getId());
+        Book updatedBook = bookService.getBook(book.getId());
 
         assertThat(updatedBook).isNotNull();
         assertThat(updatedBook.getId()).isEqualTo(book.getId());
@@ -115,7 +114,7 @@ class BookControllerTest {
                 .andExpect(status().isOk());
 
         // Then.
-        BookDto deletedBook = bookService.getBook(book.getId());
+        Book deletedBook = bookService.getBook(book.getId());
 
         assertThat(deletedBook).isNotNull();
         assertThat(deletedBook.getId()).isEqualTo(book.getId());
