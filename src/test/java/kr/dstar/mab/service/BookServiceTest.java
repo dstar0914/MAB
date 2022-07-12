@@ -42,7 +42,7 @@ class BookServiceTest {
                 .title(DEFAULT_TITLE)
                 .build();
 
-        bookService.createBook(mapper.createDtoToEntity(bookCreateDto));
+        bookService.createBook(mapper.createDtoToEntity(bookCreateDto), null);
     }
 
     @Test

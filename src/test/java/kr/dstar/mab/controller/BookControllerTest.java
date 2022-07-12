@@ -68,7 +68,7 @@ class BookControllerTest {
                 .build();
 
         mockMvc.perform(post("/books")
-                .contentType(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
                 .content(objectMapper.writeValueAsString(bookCreateDto)))
                 .andExpect(status().isCreated());
     }

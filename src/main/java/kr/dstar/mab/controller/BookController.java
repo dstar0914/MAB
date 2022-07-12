@@ -7,7 +7,9 @@ import kr.dstar.mab.mapper.BookMapper;
 import kr.dstar.mab.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -22,13 +24,13 @@ public class BookController {
 
     @PostMapping("/books")
     @ResponseStatus(value = HttpStatus.CREATED)
-    public void createBook(@Valid @RequestBody BookCreateDto bookCreateDto) {
-        bookService.createBook(mapper.createDtoToEntity(bookCreateDto));
+    public void createBook(BookCreateDto dto, @RequestPart(required = false) MultipartFile file) {
+        bookService.createBook(mapper.createDtoToEntity(dto), file);
     }
 
     @PutMapping("/books/{id}")
-    public void updateBook(@PathVariable Long id, @Valid @RequestBody BookUpdateDto bookUpdateDto) {
-        bookService.updateBook(id, mapper.updateDtoToEntity(bookUpdateDto));
+    public void updateBook(@PathVariable Long id, @Valid @RequestBody BookUpdateDto dto) {
+        bookService.updateBook(id, mapper.updateDtoToEntity(dto));
     }
 
     @DeleteMapping("/books/{id}")
